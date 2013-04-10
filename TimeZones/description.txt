@@ -1,0 +1,5 @@
+My Timezones is a fully customizable list of time zones. Add timezones from thousands of the world's cities, with customizable tag lines and the ability to heart favorite locations. Also displays icons showing night or day time depending on the timezone. 
+
+My Timezones works with your default theme colors for light or dark themes.
+
+This is my first Windows Phone App; please help by leaving feedback! Thanks - Sophia :)

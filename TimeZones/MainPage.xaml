@@ -1,0 +1,133 @@
+﻿<phone:PhoneApplicationPage
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"	
+	mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
+	x:Class="TimeZones.MainPage"
+	FontFamily="{StaticResource PhoneFontFamilyNormal}"
+	FontSize="{StaticResource PhoneFontSizeNormal}"
+	Foreground="{StaticResource PhoneForegroundBrush}"
+	SupportedOrientations="Portrait" Orientation="Portrait"
+	shell:SystemTray.IsVisible="True" Loaded="PhoneApplicationPage_Loaded">
+	<phone:PhoneApplicationPage.Resources>
+		<Style x:Key="TimerTimeStyle" TargetType="TextBlock">
+			<Setter Property="FontSize" Value="64"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="Height" Value="Auto"/>
+			<Setter Property="Margin" Value="55,19,104,0"/>
+		</Style>
+		<Style x:Key="TimerDateStyle" TargetType="TextBlock">
+			<Setter Property="FontSize" Value="18.667"/>
+			<Setter Property="Width" Value="100"/>
+			<Setter Property="Height" Value="Auto"/>
+			<Setter Property="HorizontalAlignment" Value="Right"/>
+			<Setter Property="VerticalAlignment" Value="Stretch"/>
+			<Setter Property="Margin" Value="0,39,0,12"/>
+		</Style>
+		<Style x:Key="TimerLabelLocStyle" TargetType="TextBlock">
+			<Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
+			<Setter Property="FontSize" Value="26.667"/>
+			<Setter Property="HorizontalAlignment" Value="Right"/>
+			<Setter Property="VerticalAlignment" Value="Top"/>
+			<Setter Property="Margin" Value="8,0,0,0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+		<Style x:Key="TimerLabelStyle" TargetType="TextBlock">
+			<Setter Property="FontSize" Value="18.667"/>
+			<Setter Property="Width" Value="Auto"/>
+			<Setter Property="Height" Value="Auto"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalAlignment" Value="Bottom"/>
+			<Setter Property="Margin" Value="55,0,0,-10"/>
+			<Setter Property="Opacity" Value="0.75"/>
+		</Style>
+		<Style x:Key="DividerStyle" TargetType="Rectangle">
+			<Setter Property="Fill" Value="{StaticResource PhoneAccentBrush}"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalAlignment" Value="Bottom"/>
+			<Setter Property="Height" Value="6"/>
+			<Setter Property="Margin" Value="0,0,0,-20"/>
+		</Style>
+		<Style x:Key="DividerTopStyle" TargetType="Rectangle">
+			<Setter Property="Fill" Value="{StaticResource PhoneAccentBrush}"/>
+			<Setter Property="HorizontalAlignment" Value="Stretch"/>
+			<Setter Property="VerticalAlignment" Value="Top"/>
+			<Setter Property="Height" Value="3"/>
+			<Setter Property="Margin" Value="0,0,0,0"/>
+		</Style>
+		<Style x:Key="DayNightGridStyle" TargetType="Grid">
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+			<Setter Property="Margin" Value="0,40,0,0"/>
+			<Setter Property="Width" Value="55"/>
+			<Setter Property="Height" Value="55"/>
+	    </Style>
+		<Style x:Key="HeartGridStyle" TargetType="Grid">
+			<Setter Property="HorizontalAlignment" Value="Left"/>
+			<Setter Property="Width" Value="55"/>
+			<Setter Property="Height" Value="55"/>
+			<Setter Property="VerticalAlignment" Value="Top"/>
+			<Setter Property="Background">
+				<Setter.Value>
+					<ImageBrush Stretch="Fill" ImageSource="appbar.heart.rest.png"/>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</phone:PhoneApplicationPage.Resources>
+	
+	<!--Application bar is the menu for navigation buttons-->
+	<phone:PhoneApplicationPage.ApplicationBar>
+	    <shell:ApplicationBar x:Name="AppMenu" IsVisible="True" IsMenuEnabled="True">
+	        <shell:ApplicationBarIconButton x:Name="MenuAdd" IconUri="appbar.add.rest.png" Text="Add" Click="MenuAdd_Click"/>
+            <shell:ApplicationBarIconButton x:Name="MenuRemoveAll" IconUri="appbar.delete.rest.png" Text="Remove All" Click="MenuRemoveAll_Click"/>
+            <shell:ApplicationBar.MenuItems>
+                <shell:ApplicationBarMenuItem Text="About" Click="MenuAbout_Click"/>
+	        </shell:ApplicationBar.MenuItems>
+	    </shell:ApplicationBar>
+	</phone:PhoneApplicationPage.ApplicationBar>
+	
+	<!--LayoutRoot is the root grid where all page content is placed-->
+	<Grid x:Name="LayoutRoot">
+		<Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="cityscapebackgdark.png" Opacity="0.25"/>
+		</Grid.Background>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="124"/>
+			<RowDefinition Height="572*"/>
+		</Grid.RowDefinitions>
+
+		<!--TitlePanel contains the name of the application and page title-->
+		<StackPanel x:Name="TitlePanel" Margin="12,17,0,12">
+			<TextBlock x:Name="ApplicationTitle" Text="my timezones" Style="{StaticResource PhoneTextTitle1Style}" FontSize="96" Opacity="0.5">
+				<TextBlock.RenderTransform>
+					<CompositeTransform TranslateY="-35"/>
+				</TextBlock.RenderTransform>
+			</TextBlock>
+		</StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <ListBox  Grid.Row="1" Margin="12,0,12,0" Width="450" Name="ListOfZones" VerticalAlignment="Top">
+                <!--  <Grid x:Name="Timer1" Height="105" Margin="0,15,8,0" VerticalAlignment="Top">
+				    <TextBlock x:Name="TimerTime1" Text="12:56 PM" Style="{StaticResource TimerTimeStyle}"/>
+				    <TextBlock x:Name="TimerLabel1" Text="Boston, MA, US" Style="{StaticResource TimerLabelLocStyle}"  />
+				    <TextBlock x:Name="DateTimer1" Style="{StaticResource TimerDateStyle}" ><Run Text="Sunday"/><LineBreak/><Run Text="12/12/12"/><LineBreak/><Run/></TextBlock>
+				    <Rectangle x:Name="Divider1" Style="{StaticResource DividerStyle}" />
+				    <Rectangle x:Name="Divider1_Copy" Style="{StaticResource DividerTopStyle}"/>
+				    <TextBlock x:Name="TimerLabelLoc1" Text="this is home" Style="{StaticResource TimerLabelStyle}" />
+				    <Grid Style="{StaticResource DayNightGridStyle}"/>
+				    <Grid Style="{StaticResource HeartGridStyle}"/>
+				
+			    </Grid>
+                 <Grid x:Name="Timer2" Height="105" Margin="0,139,8,0" VerticalAlignment="Top">
+				    <TextBlock x:Name="TimerTime2" Margin="8,19,158,0" TextWrapping="Wrap" Text="12:56 PM" Style="{StaticResource TimerTimeStyle}" d:LayoutOverrides="Height"/>
+				    <TextBlock x:Name="TimerLabel2" TextWrapping="Wrap" Text="Home" VerticalAlignment="Top" Style="{StaticResource TimerCustomLabelStyle1}" Foreground="White" FontSize="26.667" HorizontalAlignment="Right" Width="154"/>
+				    <TextBlock x:Name="DateTimer2" Margin="0,43,0,12" TextWrapping="Wrap" Style="{StaticResource DateTimerStyle}" Width="154" VerticalAlignment="Stretch" d:LayoutOverrides="Height"><Run Text="Monday"/><LineBreak/><Run Text="11/23/2012"/></TextBlock>
+				    <Rectangle x:Name="Divider2" Style="{StaticResource DividerStyle}"/>
+				    <TextBlock x:Name="TimerLabelLoc2" Margin="8,0,158,0" TextWrapping="Wrap" Text="Boston, MA" VerticalAlignment="Top" Style="{StaticResource TimerLabelStyle}" FontSize="26.667"/>
+			    </Grid>-->
+        </ListBox>
+    </Grid>
+</phone:PhoneApplicationPage>
